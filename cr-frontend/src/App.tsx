@@ -1,30 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-type AppState = {
-  message: string; 
-};
-class App extends React.Component<{}, AppState> {
-  state: AppState = {
-    // optional second annotation for better type inference
-    message: 'Default message',
-  };
-
-  componentDidMount() {
+const App = () => {
+  const [message, setMessage] = useState('My adas message blah blah');
+  
+  useEffect(() => {
     fetch('http://localhost:3000/courses')
       .then(res => res.json())
       .then(obj => {
-        this.setState({message: obj.message});
+        setMessage(obj.message);
       });
-  }
-
-  render() {
-    return (
-      <div>
-        {this.state.message}
-      </div>
-    );
-  }
+  },[]);
+  return (
+    <div className="App">
+      {message}
+    </div>
+  );
 }
 export default App;
