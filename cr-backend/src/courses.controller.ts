@@ -1,26 +1,13 @@
 import { Controller, Get } from '@nestjs/common';
+import { Course } from './interfaces/course.interface';
+import { CoursesService } from './courses.service';
 
 @Controller('courses')
 export class CoursesController {
+  constructor(private coursesService: CoursesService) {}
 
-  @Get('')
-  findall(): any{
-    return [
-      {
-      id: '100' ,
-      number: '01204111' ,
-      title:'Computer and Programming'
-      },
-      {
-      id: '20123fsd' ,
-      number: '01204111' ,
-      title:'Discrete mathematics and linear algebra'
-      },
-      {
-        id: 'fdgerkfasd' ,
-        number: '01204313' ,
-        title:'Design and analysis of algorithms'
-      },
-    ];
+  @Get()
+  async findAll(): Promise<Course[]>{
+    return this.coursesService.findAll();
   }
 }
