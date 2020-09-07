@@ -1,11 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import './App.css';
+
 import { Course } from './interfaces';
-import CourseItem from './CourseItem';
+import CourseItem from './components/CourseItem';
+import NewCourseForm from './components/NewCourseForm';
+
+import './App.css';
 
 const App = () => {
   const [courses ,setCourses] = useState<Course[]>([]);
-  
+  const [formVisable, setFormVisable] = useState<boolean>(false);
+
+  const toggleFormVisable = () =>{
+    setFormVisable(!formVisable);
+  };
+
   useEffect(() => {
     fetch('http://localhost:3000/courses')
       .then(res => res.json())
@@ -21,6 +29,11 @@ const App = () => {
           <CourseItem key={item.id} course={item} />
         ))}
       </ul>
+      <button onClick={toggleFormVisable}>New course</button>
+      {formVisable &&
+        <NewCourseForm />
+        
+      }
     </div>
   );
 }
