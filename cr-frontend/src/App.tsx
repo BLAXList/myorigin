@@ -3,28 +3,28 @@ import React, { useState, useEffect } from 'react';
 import { Course } from './interfaces';
 import CourseItem from './components/CourseItem';
 import NewCourseForm from './components/NewCourseForm';
+import CoursesService from './services/CoursesService';
 
 import './App.css';
 
 const App = () => {
   const [courses ,setCourses] = useState<Course[]>([]);
-  const [formVisable, setFormVisable] = useState<boolean>(false);
+  const [formVisible, setFormVisible] = useState<boolean>(false);
 
   const toggleFormVisable = () =>{
-    setFormVisable(!formVisable);
+    setFormVisible(!formVisible);
   };
 
   const fetchCourses = () => {
-    fetch('http://localhost:3000/courses')
-    .then(res => res.json())
-    .then(courses => {
-      setCourses(courses);
-    });
+    CoursesService.fetchCourses()
+      .then(courses => {
+        setCourses(courses);
+      });
   }
 
   const handleNewCourseCreated = (course: Course) => {
     fetchCourses();
-    setFormVisable(false);
+    setFormVisible(false);
   }
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const App = () => {
         ))}
       </ul>
       <button onClick={toggleFormVisable}>New course</button>
-      {formVisable &&
+      {formVisible &&
         <NewCourseForm onNewCourseCreated={handleNewCourseCreated}/>
       }
     </div>
